@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title> Document</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+</head>
+
+<body class="bg-[#f3e8ff] min-h-screen flex items-center justify-center  " style="background-image: url(https://yastatic.net/s3/passport-auth-customs/customs/_/4e4485e4.webp);">
+
+   
+
+
+      
+
+
+        <div class="w-[420px] rounded-[28px] h-full bg-zinc-600 px-[20px] py-[18px] text-center pl-[20px] ">
+
+
+            <h1 class="text-center text-[40px] font-bold text-zinc-400">
+          Ko'rikda o'tin
+            </h1>
+
+            <p class="text-[27px] text-[#77748c] mt-[2px]">
+            elektiron pochta idsini yo'zin
+            </p>
+
+
+
+            <form method="post">
+                {% csrf_token %}
+
+
+                <div class="relative mt-[7px]">
+
+                    <i class="fa-solid fa-user absolute left-[23px]
+                              top-[19px] text-zinc-400"></i>
+
+                    <input type="text" name="username" placeholder="Username" class="w-full h-[48px] bg-[#e4e6ed] rounded-[10px]
+                               pl-[48px] outline-none text-[15px]
+                               placeholder:text-[#999] ">
+
+                </div>
+
+
+
+                <div class="relative mt-[5px]">
+
+                    <i class="fa-solid fa-envelope absolute left-[23px]
+                              top-[18px] text-zinc-400"></i>
+
+                    <input type="email" name="email" placeholder="Email" class="w-full h-[48px] bg-[#e4e6ed] rounded-[10px]
+                               pl-[48px] outline-none text-[15px]
+                               placeholder:text-[#999]">
+
+                </div>
+
+
+
+                <div class="relative mt-[5px]">
+
+                    <i class="fa-solid fa-lock absolute left-[27px]
+                              top-[17px] text-zinc-400"></i>
+
+                    <input type="password" name="parol" placeholder="password" class="w-full h-[48px] bg-[#e4e6ed] rounded-[10px]
+                               pl-[48px] pr-[45px] outline-none text-[15px]
+                               placeholder:text-[#999]">
+
+                    <i class="fa-solid fa-eye absolute right-[20px]
+                              top-[17px] text-zinc-400"></i>
+
+                </div>
+
+                <div class="relative mt-[5px]">
+
+                    <i class="fa-solid fa-lock absolute left-[27px]
+                              top-[17px] text-zinc-400"></i>
+
+                    <input type="password" name="parolni_tasdiqlash" placeholder="password br tasdiqlang" class="w-full h-[48px] bg-[#e4e6ed] rounded-[10px]
+                               pl-[48px] pr-[45px] outline-none text-[15px]
+                               placeholder:text-[#999]">
+
+                    <i class="fa-solid fa-eye absolute right-[20px]
+                              top-[17px] text-[#85879a]"></i>
+
+                </div>
+
+
+
+                <div class="text-[14px] text-black h-[35px] pt-[4px]">
+
+                </div>
+
+                <button type="submit" class="w-full h-[58px] bg-zinc-300 
+                           hover:bg-zinc-400 transition
+                           rounded-[10px] text-white text-[20px]">
+                    Tasdiqlash
+                </button>
+
+            </form>
+
+
+
+            <div class="flex items-center gap-[10px] mt-[38px]">
+
+                <div class="h-[1px] bg-[#e1e1e1] flex-1"></div>
+
+                <span class="text-white text-[16px]">
+                    Yoki
+                </span>
+
+                <div class="h-[1px] bg-[#e1e1e1] flex-1"></div>
+
+            </div>
+<div class="ml-[0px]">
+    <button class="w-[335px] h-[48px] bg-[#e4e6ed]
+               rounded-[10px] mt-[18px] flex items-center
+               px-[17px] text-[#77748c] text-[16px]">
+
+        <span class="font-bold text-[20px] text-[#77748c]">
+            G
+        </span>
+
+        <span class="ml-[20px]">
+            Google blan davom eting
+        </span>
+
+    </button>
+
+
+
+    <button class="w-[335px] h-[48px] bg-[#e4e6ed]
+               rounded-[10px] mt-[18px] flex items-center
+               px-[17px] text-[#77748c] text-[16px]">
+
+        <i class="fa-brands fa-apple text-black text-zinc-400"></i>
+
+        <span class="ml-[20px]">
+            Apple blan davom eting
+        </span>
+
+    </button></div>
+
+
+
+            <p class="text-[#77748c] text-[14px] mt-[13px] ml-[10px]">
+
+                Hisobingiz bormi?
+
+                <a href="{% url 'logo' %}"><button><span class="text-[#6500e8] cursor-pointer">
+                    Kirish
+                </span></button></a>
+
+            </p>
+
+        </div>  
+
+
+</body>
+
+</html>

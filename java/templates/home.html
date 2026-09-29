@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<style>
+  html,
+  body {
+    position: relative;
+    height: 100%;
+  }
+
+  body {
+    background: #000;
+    font-family:
+      Helvetica Neue,
+      Helvetica,
+      Arial,
+      sans-serif;
+    font-size: 14px;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+  }
+
+  swiper-container {
+    width: 1388px;
+    height: 167px;
+  }
+
+  swiper-slide {
+    text-align: center;
+    font-size: 18px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .autoplay-progress {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: var(--swiper-theme-color);
+  }
+
+  .autoplay-progress svg {
+    --progress: 0;
+    position: absolute;
+    left: 0;
+    top: 0px;
+    z-index: 10;
+    width: 1388px;
+    height: 167px;
+    stroke-width: 4px;
+    stroke: var(--swiper-theme-color);
+    fill: none;
+    stroke-dashoffset: calc(125.6px * (1 - var(--progress)));
+    stroke-dasharray: 125.6;
+    transform: rotate(-90deg);
+  }
+</style>
+
+<body class="w-[1540px]">
+ <!-- Fixed Sticky Header -->
+<div id="sticky-header" 
+class="fixed top-0 left-0 bg-black p-4 border-b shadow-md z-50 
+       transition-all duration-300 transform -translate-y-full opacity-0 pointer-events-none">
+       <nav class="h-[72px] pl-[50px] flex pt-[10px] ">
+        <img class="w-[148px] h-[48px] justify-center"
+          src="https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/dark/yandex-text.png"
+          alt="">
+        <div class=" ml-[20px] h-[48px] bg-[#000] flex">
+          <button class="px-6 border border-l-0 border-zinc-600 rounded-l-[25px] h-[48px] bg-zinc-600 text-[#fff]">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+          <input type="text" placeholder="Mahsulotlar va turkumlar izlash"
+            class=" border border-zinc-600 bg-zinc-600 rounded-r-[25px] px-4 py-3 outline-none focus:border-purple-500 w-[366px]">
+    
+        </div>
+        <div class="w-[155px] h-[48px] rounded-[25px] bg-[#fce000] ml-[35px] text-center pt-[10px]">
+          <h1 class="text-[14px]  text-[#000]"><i class="fa-solid fa-paper-plane" style="color: rgb(30, 48, 80);"></i>
+            Manzilni kiriting</h1>
+        </div>
+        <i class="fa-solid fa-earth-americas text-[24px] ml-[510px] mt-[10px]" style="color: rgb(30, 48, 80);"></i>
+        <div class="w-[92px] h-[48px] bg-zinc-600 text-zinc-400 rounded-[15px] text-center pt-[10px] ml-[20px]">
+          {% if user.is_authenticated %}
+
+          <a href="{% url 'chiqish' %}">
+           <i class="fa-solid fa-right-from-bracket"></i>
+           <span>{{ user.username}}</span>
+          </a>
+          {%else%}
+                       <button href="#" class="flex items-center gap-2 hover:text-purple-600 " id="tepelet">
+       
+       <a href="{% url 'salom' %}">                    <span class=" hidden lg:block "> <i class="fa-regular fa-user  " ></i> Kirish</span></a>
+                       </button>
+       {% endif%}
+        </div>
+      </nav>
+</div>
+
+<!-- JavaScript Logic -->
+<script>
+const header = document.getElementById('sticky-header');
+
+function handleScroll() {
+// Sahifa 200px pastga tushganda header chiqadi
+if (window.scrollY > 200) {
+ header.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
+ header.classList.add('translate-y-0', 'opacity-100');
+
+ // Bir marta chiqqandan keyin kuzatishni to'xtatamiz (doimiy qoladi)
+ window.removeEventListener('scroll', handleScroll);
+}
+}
+
+window.addEventListener('scroll', handleScroll);
+</script>
+<nav class="h-[72px] pl-[50px] flex pt-[10px] ">
+  <img class="w-[148px] h-[48px] justify-center"
+    src="https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/dark/yandex-text.png"
+    alt="">
+  <div class=" ml-[20px] h-[48px] bg-[#000] flex">
+    <button class="px-6 border border-l-0 border-zinc-600 rounded-l-[25px] h-[48px] bg-zinc-600 text-[#fff]">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+    <input type="text" placeholder="Mahsulotlar va turkumlar izlash"
+      class=" border border-zinc-600 bg-zinc-600 rounded-r-[25px] px-4 py-3 outline-none focus:border-purple-500 w-[366px]">
+
+  </div>
+  <div class="w-[155px] h-[48px] rounded-[25px] bg-[#fce000] ml-[35px] text-center pt-[10px]">
+    <h1 class="text-[14px]  text-[#000]"><i class="fa-solid fa-paper-plane" style="color: rgb(30, 48, 80);"></i>
+      Manzilni kiriting</h1>
+  </div>
+  <i class="fa-solid fa-earth-americas text-[24px] ml-[510px] mt-[10px]" style="color: rgb(30, 48, 80);"></i>
+  <div class="w-[92px] h-[48px] bg-zinc-600 text-zinc-400 rounded-[15px] text-center pt-[10px] ml-[20px]">
+    {% if user.is_authenticated %}
+
+    <a href="{% url 'chiqish' %}">
+     <i class="fa-solid fa-right-from-bracket"></i>
+     <span>{{ user.username}}</span>
+    </a>
+    {%else%}
+                 <button href="#" class="flex items-center gap-2 hover:text-purple-600 " id="tepelet">
+ 
+ <a href="{% url 'salom' %}">                    <span class=" hidden lg:block "> <i class="fa-regular fa-user  " ></i> Kirish</span></a>
+                 </button>
+ {% endif%}
+  </div>
+</nav>
+  <swiper-container class="mySwiper" space-between="30" autoplay-delay="2500" autoplay-disable-on-interaction="false"
+    slides-per-view="3">
+    <swiper-slide><img class="w-[426px] h-[136px] rounded-[15px]"
+        src="https://avatars.mds.yandex.net/get-feeds-media/3752444/a41e362ab6f887190cacb4d08fe158631741d245/media-984-312"
+        alt=""></swiper-slide>
+    <swiper-slide><img class="w-[426px] h-[136px] rounded-[15px]"
+        src="https://avatars.mds.yandex.net/get-feeds-media/3752444/3663879e5328eb8036b8f9cfc08f67266e3cc28a/media-984-312"
+        alt=""></swiper-slide>
+    <swiper-slide><img class="w-[426px] h-[136px] rounded-[15px]"
+        src="https://avatars.mds.yandex.net/get-feeds-media/3954761/d1f8ff12c6c5c992c9b2144e20475a06eb317516/media-984-312"
+        alt=""></swiper-slide>
+    <swiper-slide><img class="w-[426px] h-[136px] rounded-[15px]"
+        src="https://avatars.mds.yandex.net/get-feeds-media/3683994/5b8f3f0b8a9b54d7712602ed73b1a9f5f55e5264/media-984-312"
+        alt=""></swiper-slide>
+    <swiper-slide><img class="w-[426px] h-[136px] rounded-[15px]"
+        src="https://avatars.mds.yandex.net/get-feeds-media/3683994/810e83855ceb7962579ebba22d0304b850eb8306/media-984-312"
+        alt=""></swiper-slide>
+    <swiper-slide><img class="w-[426px] h-[136px] rounded-[15px]"
+        src="https://avatars.mds.yandex.net/get-feeds-media/3535261/0493439e191286aa34e641f4be60212878f6fe2f/media-984-312"
+        alt=""></swiper-slide>
+    <swiper-slide><img class="w-[426px] h-[136px] rounded-[15px]"
+        src="https://avatars.mds.yandex.net/get-feeds-media/3752156/d037cee97db2b74bae1614d74465b0c6ad8127a2/media-984-312"
+        alt=""></swiper-slide>
+    <swiper-slide><img class="w-[426px] h-[136px] rounded-[15px]"
+        src="https://avatars.mds.yandex.net/get-feeds-media/3710899/31270aace04f219a888a54c055ff03a49974d297/media-984-312"
+        alt=""></swiper-slide>
+    <swiper-slide><img class="w-[426px] h-[136px] rounded-[15px]"
+        src="https://avatars.mds.yandex.net/get-feeds-media/3683706/0f3eddfdd46250860abf8c6e1a4994ba896d8919/media-984-312"
+        alt=""></swiper-slide>
+    <swiper-slide><img class="w-[426px] h-[136px] rounded-[15px]"
+        src="https://avatars.mds.yandex.net/get-feeds-media/3710899/0adda78276b08530e399b2d535eb48de89a1e03e/media-984-312"
+        alt=""></swiper-slide>
+    <swiper-slide><img class="w-[426px] h-[136px] rounded-[15px]"
+        src="https://avatars.mds.yandex.net/get-feeds-media/5396768/5d638afa2903c1cd7b9736189aed429b717f91e0/media-984-312"
+        alt=""></swiper-slide>
+    <swiper-slide><img class="w-[426px] h-[136px] rounded-[15px]"
+        src="https://avatars.mds.yandex.net/get-feeds-media/3752156/c3bc1b3775ab87207e138783d168d364d8c235f3/media-984-312"
+        alt=""></swiper-slide>
+    <swiper-slide><img class="w-[426px] h-[136px] rounded-[15px]"
+        src="https://avatars.mds.yandex.net/get-feeds-media/3683706/0f3eddfdd46250860abf8c6e1a4994ba896d8919/media-984-312"
+        alt=""></swiper-slide>
+  </swiper-container>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@14.0.1/swiper-element-bundle.min.js"></script>
+  <swiper-container class="mySwiper" space-between="30" autoplay-delay="2500" autoplay-disable-on-interaction="false"
+    slides-per-view="4">
+    <swiper-slide>
+      <div class=" bg-repeat" style="background-color: aqua;  width: 315px; height: 157px; "><img
+          class="w-[250px] h-[151px] bg-repeat  "
+          src="https://avatars.mds.yandex.net/get-eda-images/9710863/88161f29-ab36-11ef-ad54-da7df84a6520/orig" alt="">
+      </div>
+    </swiper-slide>
+    <swiper-slide>
+      <div style="background-color: darkgoldenrod;  width: 315px; height: 157px; "><img class="w-full h-full "
+          src="https://eda.yandex/images/3507787/dd4028da401588419c805850557bb267.png" alt=""></div>
+    </swiper-slide>
+    <swiper-slide>
+      <div style="background-color: rgba(71, 180, 56, 0.855);  width: 315px; height: 157px; "><img class="w-full h-full"
+          src="https://eda.yandex/images/19925171/20dcf47ced15a6059a02554c69883915.png" alt=""></div>
+    </swiper-slide>
+    <swiper-slide>
+      <div style="background-color: darkgoldenrod;  width: 315px; height: 157px; "><img class="w-full h-full "
+          src="https://eda.yandex/images/3507787/dd4028da401588419c805850557bb267.png" alt=""></div>
+    </swiper-slide>
+    <swiper-slide>
+      <div style="background-color: aqua;  width: 315px; height: 157px; "><img class="w-full h-full"
+          src="https://avatars.mds.yandex.net/get-eda-images/9710863/88161f29-ab36-11ef-ad54-da7df84a6520/orig" alt="">
+      </div>
+    </swiper-slide>
+    <swiper-slide>
+      <div style="background-color: darkgoldenrod;  width: 315px; height: 157px; "><img class="w-full h-full "
+          src="https://eda.yandex/images/3507787/dd4028da401588419c805850557bb267.png" alt=""></div>
+    </swiper-slide>
+    <swiper-slide>
+      <div style="background-color: aqua;  width: 315px; height: 157px; "><img class="w-full h-full"
+          src="https://avatars.mds.yandex.net/get-eda-images/9710863/88161f29-ab36-11ef-ad54-da7df84a6520/orig" alt="">
+      </div>
+    </swiper-slide>
+    <swiper-slide>
+      <div style="background-color: darkgoldenrod;  width: 315px; height: 157px; "><img class="w-full h-full "
+          src="https://eda.yandex/images/3507787/dd4028da401588419c805850557bb267.png" alt=""></div>
+    </swiper-slide>
+    <swiper-slide>
+      <div style="background-color: aqua;  width: 315px; height: 157px; "><img class="w-full h-full"
+          src="https://avatars.mds.yandex.net/get-eda-images/9710863/88161f29-ab36-11ef-ad54-da7df84a6520/orig" alt="">
+      </div>
+    </swiper-slide>
+    <swiper-slide>
+      <div style="background-color: darkgoldenrod;  width: 315px; height: 157px; "><img class="w-full h-full "
+          src="https://eda.yandex/images/3507787/dd4028da401588419c805850557bb267.png" alt=""></div>
+    </swiper-slide>
+    <swiper-slide>
+      <div style="background-color: aqua;  width: 315px; height: 157px; "><img class="w-full h-full"
+          src="https://avatars.mds.yandex.net/get-eda-images/9710863/88161f29-ab36-11ef-ad54-da7df84a6520/orig" alt="">
+      </div>
+    </swiper-slide>
+    <swiper-slide>
+      <div style="background-color: darkgoldenrod;  width: 315px; height: 157px; "><img class="w-full h-full "
+          src="https://eda.yandex/images/3507787/dd4028da401588419c805850557bb267.png" alt=""></div>
+    </swiper-slide>
+  </swiper-container>
+
+  <div class="w-[1306px] h-[64px] bg-zinc-600 ml-[100px] mt-[20px] rounded-[10px] pt-[10px] pl-[10px] text-[16px] flex">
+    <div class="w-[104px] h-[48px] bg-[#000]  text-[16px] text-center pt-[10px] rounded-[10px]">
+      <h1>Hamasi</h1>
+    </div>
+    <div class="w-[104px] h-[48px]  text-[16px] text-center pt-[10px] rounded-[10px]">
+      <h1>Hamasi</h1>
+    </div>
+    <div class="w-[104px] h-[48px]  text-[16px] text-center pt-[10px] rounded-[10px]">
+      <h1>Hamasi</h1>
+    </div>
+    <div class="w-[104px] h-[48px]  text-[16px] text-center pt-[10px] rounded-[10px]">
+      <h1>Hamasi</h1>
+    </div>
+    <div class="w-[104px] h-[48px]  text-[16px] text-center pt-[10px] rounded-[10px]">
+      <h1>Hamasi</h1>
+    </div>
+    <div class="w-[104px] h-[48px]  text-[16px] text-center pt-[10px] rounded-[10px]">
+      <h1>Hamasi</h1>
+    </div>
+    <div class="w-[104px] h-[48px]  text-[16px] text-center pt-[10px] rounded-[10px]">
+      <h1>Hamasi</h1>
+    </div>
+    <div class="w-[104px] h-[48px]  text-[16px] text-center pt-[10px] rounded-[10px]">
+      <h1>Hamasi</h1>
+    </div>
+    <div class="w-[104px] h-[48px]  text-[16px] text-center pt-[10px] rounded-[10px]">
+      <h1>Hamasi</h1>
+    </div>
+    <div class="w-[104px] h-[48px]  text-[16px] text-center pt-[10px] rounded-[10px]">
+      <h1>Hamasi</h1>
+    </div>
+    <div class="flex mt-[10px] ml-[150px]"> <img class="w-[24px] h-[24px] "
+        src="https://yastatic.net/s3/eda-front/www/assets/buildid/desktop.slider_bar-f5b5df0938f1991ba835.svg" alt="">
+      <h1>
+        Saralash</h1>
+    </div>
+  </div>
+
+  <div class="flex ml-[75px] mt-[25px]"> {% for kik in kik %}
+
+    <div class="flex">
+
+      <div class=" bg-repeat"><a   href="{% url 'detail'  %}"><img class="w-[309px] h-[151px] bg-repeat rounded-[15px]  " src="{{kik.liga.url}}" alt=""></a>
+      <div class="flex">  <h1 class="text-[16px]">{{kik.namc}}</h1>
+        <h1 class="text-[14px] ml-[180px]">{{kik.tavk}}</h1></div>
+        <h1 class="text-[14px]">{{kik.namr}}</h1>
+       {% if kik.aktiv%}
+<div class="w-[120px] pl-[5px] h-[16px] text-[11px] text-[#48c600] bg-green-600 rounded-[25px]"> <h1>bepul yelkazib berilish</h1></div>
+       {% endif%}
+      </div>     
+    </div>
+
+     
+      
+
+        <div class=" bg-repeat"><img class="w-[309px] h-[151px] bg-repeat rounded-[15px]  " src="{{kik.liga.url}}" alt="">
+          <div class="flex">  <h1 class="text-[16px]">{{kik.namc}}</h1>
+            <h1 class="text-[14px] ml-[180px]">{{kik.tavk}}</h1></div>
+            <h1 class="text-[14px]">{{kik.namr}}</h1>
+           {% if kik.aktiv%}
+    <div class="w-[120px] pl-[5px] h-[16px] text-[11px] text-[#48c600] bg-green-600 rounded-[25px]"> <h1>bepul yelkazib berilish</h1></div>
+           {% endif%}
+          </div>
+          {% endfor%}
+          </div>
+          <div class=" h-[560px] mt-[320px] absolute left-[6px]"> 
+            <h1 class="text-[20px] ml-[120px]">Ilvada yanada qulayroq </h1> 
+           <div class="flex"> <button class="w-[148px] h-[48px] border-[3px] border-zinc-600
+            rounded-[10px] mt-[8px] flex items-center
+            px-[17px] text-zinc-600 m-[60px] ">
+  
+     <span class="font-bold  text-white ">
+         <i class="fa-brands fa-google-play text-[12px] text-zinc-600"></i>
+     </span>
+  r
+     <span class="ml-[20px] text-white text-[10px] text-zinc-600">
+         Google play
+     </span>
+  
+  </button><button class="w-[148px] h-[48px] border-[3px] border-zinc-600
+  rounded-[10px] mt-[8px] flex items-center
+  px-[17px] text-zinc-600 m-[60px]]">
+
+<i class="fa-brands fa-apple  text-zinc-600 text-[12px] "></i>
+
+<span class="ml-[10px] text-white text-[10px] text-zinc-600">
+Apple 
+</span>
+
+</button></div>
+<div class="w-[1440px] h-[1px] bg-zinc-600 mt-[10px]"></div>
+<div class="ml-[800px] mt-[30px]"> <h1 class="text-[17px]">
+  Kompaniya haqida</h1><div class="text-[13px]  text-zinc-600 mt-[10px]"><h1>Foydalanuvchi      kelishuvi     Kontaktlar      Yetkazish     Hamkorlik qilish    Kuryerlik qilish      Biznes uchun taom</h1>
+  <h1 class="flex mt-[10px]">Plastikni qayta ishlash
+    Yandex Go ilovasi orqali taom buyurtma qilish
+    <img class="w-[24px] h-[24px] ml-[20px]" src="https://avatars.mds.yandex.net/get-bunker/60661/1a0d5a85380003680cc58d7119ce24f33d5f8406/svg" alt="">
+    Aloqa</h1></div></div><div class="w-[1440px] h-[1px] bg-zinc-600 mt-[30px]"></div>
+  <div class="text-[13px] text-zinc-600 flex mt-[220px] mt-[]"><h1>© 2023–2026 YANDEX EATS LLC</h1><h1 class="ml-[1100px]">Yandex kompaniyasi loyihasi</h1></div></div>
+</body>
+
+</html>

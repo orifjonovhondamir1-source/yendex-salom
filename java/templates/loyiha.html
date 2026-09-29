@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZiyoNET Orbit Motion Slider</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: #eef2f5;
+  
+     
+      min-height: 100vh;
+    }
+
+    .mobile-frame {
+      width: 375px;
+      height: 667px;
+      background: #f8fafc;
+      border-radius: 30px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+    
+    }
+
+    /* Logo Header */
+    .header-logo {
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      z-index: 10;
+      padding: 6px 12px;
+    
+      border-radius: 8px;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(4px);
+    }
+
+    /* Traektoriya chizig'i */
+    .curved-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Doiralar (Nodes) */
+    .node {
+      position: absolute;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 3;
+    }
+
+    /* Oddiy ko'k doira stili */
+    .node.blue {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #82ccdd, #60a3bc);
+      box-shadow: 0 0 0 8px rgba(96, 163, 188, 0.15);
+    }
+
+    .node.blue svg {
+      width: 45px;
+      height: 45px;
+      stroke: #ffffff;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* Faol qizil doira stili */
+    .node.active-red {
+      width: 180px;
+      height: 180px;
+      background: linear-gradient(135deg, #ff7675, #ee5253);
+      box-shadow: 0 0 0 15px rgba(238, 82, 83, 0.15), 0 12px 25px rgba(238, 82, 83, 0.3);
+      z-index: 5;
+    }
+
+    .node.active-red svg {
+      width: 85px;
+      height: 85px;
+      stroke: #ffffff;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* Matn va tugma sohasi */
+    .content-area {
+      position: absolute;
+      top: 320px;
+      left: 30px;
+      width: 200px;
+      z-index: 6;
+      text-align: center;
+      transition: opacity 0.5s ease;
+    }
+
+    .content-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #111;
+      line-height: 1.3;
+      margin-bottom: 15px;
+    }
+
+    .btn-action {
+      background: #ee5253;
+      color: #ffffff;
+      border: none;
+      padding: 10px 36px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(238, 82, 83, 0.35);
+    }
+
+    /* O'rinlar pozitsiyasi */
+    .pos-0 { top: -20px; left: 20px; opacity: 0; }
+    .pos-1 { top: 60px; left: 40px; }       /* Yuqori */
+    .pos-2 { top: 110px; right: 25px; }     /* Markaziy qizil o'rin */
+    .pos-3 { top: 350px; right: 35px; }     /* O'ng past */
+    .pos-4 { bottom: -10px; left: 130px; }  /* Pastki markaz */
+    .pos-5 { bottom: -100px; left: 50px; opacity: 0; }
+  </style>
+</head>
+<body>
+    <div id="sticky-header" class="fixed top-0 left-0 bg-zinc-200 p-4 border-b shadow-md z-50 
+    transition-all duration-300 transform -translate-y-full opacity-0 pointer-events-none">
+     <nav class="h-[98px] flex bg-zinc-200 pt-[10px] text-white w-[1480px]"><img
+             class="w-[156px] h-[53px] ml-[60px] text-zinc-50 " src="https://ziyonet.uz/images/logo/logo-blue-uz.svg"
+             alt="">
+         <div class="text-[16px] ml-[1000px] mt-[10px]">
+             <h1>O'zbekcha </h1>
+         </div>
+         <div class="mt-[7px] ml-[20px]">
+             <h1 class="text-[12px] ">
+
+                 Kirish
+             </h1>
+             <h1 class="text-[12px]"> Ro‘yxatdan o‘tish</h1>
+         </div>
+     </nav>
+ </div>
+
+ <!-- JavaScript Logic -->
+ <script>
+     const header = document.getElementById('sticky-header');
+
+     function handleScroll() {
+         // Sahifa 200px pastga tushganda header chiqadi
+         if (window.scrollY > 200) {
+             header.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
+             header.classList.add('translate-y-0', 'opacity-100');
+
+             // Bir marta chiqqandan keyin kuzatishni to'xtatamiz (doimiy qoladi)
+             window.removeEventListener('scroll', handleScroll);
+         }
+     }
+
+     window.addEventListener('scroll', handleScroll);
+ </script>
+ <nav class="h-[98px] flex bg-zinc-200 pt-[10px] text-zinc-600"><img class="w-[156px] h-[53px] ml-[60px] text-zinc-50 "
+         src="https://ziyonet.uz/images/logo/logo-blue-uz.svg" alt="">
+     <div class="text-[16px] ml-[1000px] mt-[20px]">
+         <h1>O'zbekcha </h1>
+     </div>
+     <div class="mt-[7px] ml-[20px]">
+         <button href="#" class="flex items-center gap-2 hover: " id="tepelet">
+         
+             <a href="{% url 'login' %}">                    <span class=" hidden lg:block "> <i class="fa-regular fa-user  " ></i> Kirish</span></a>
+                             </button>
+                             <button href="#" class="flex items-center gap-2 hover: " id="tepelet">
+                    
+                                 <a href="{% url 'yolhat' %}">                    <span class=" hidden lg:block "> <i class="fa-regular fa-user  " ></i>              Ro‘yxatdan o‘tish</span></a>
+                                                 </button>
+     </div>
+ </nav>
+<div class="flex">  <div class="mobile-frame">
+    <!-- Header Logo -->
+    <div class="header-logo">
+      <svg width="100" height="30" viewBox="0 0 140 40">
+        <path d="M10 25 L25 10 L40 25 L25 35 Z" fill="none" stroke="#2e86de" stroke-width="2"/>
+        <text x="48" y="22" fill="#2e86de" font-weight="bold" font-size="16">ZiyoNET</text>
+        <text x="48" y="32" fill="#8395a7" font-size="8">SINCE 2006</text>
+      </svg>
+    </div>
+
+    <!-- Traektoriya chizig'i -->
+    <svg class="curved-line" viewBox="0 0 375 667">
+      <path d="M 90 110 Q 280 120 270 200 T 300 400 Q 200 580 190 660" 
+            fill="none" 
+            stroke="#60a3bc" 
+            stroke-width="2" 
+            stroke-dasharray="6,6" 
+            opacity="0.6"/>
+    </svg>
+
+    <!-- Doiralar -->
+    <div id="nodes-container"></div>
+
+    <!-- Matn va Tugma -->
+    <div class="content-area">
+      <div class="content-title" id="slide-title">Loading...</div>
+      <button class="btn-action">O'TISH</button>
+    </div>
+  </div>
+  <div
+  style="background-image: url(https://ziyonet.uz/images/hero.jpg); background-position: 50% 50%; padding-top: 50px; background-repeat: no-repeat; width: 1200px; height: 667px;">
+  <img class="ml-[600px] mt-[0px]" src="/stapp/img/Screenshot 2026-09-24 152445.png " alt="">
+  <div class="flex ml-[500px] mt-[50px]"><img class="ml-[20px] rounded-[15px]" src="/stapp/img/Screenshot 2026-09-24 152414.png" alt="">
+  <img class="ml-[20px] rounded-[15px]" src="/stapp/img/Screenshot 2026-09-24 152426.png" alt="">
+  <img class="ml-[20px] rounded-[15px]" src="/stapp/img/Screenshot 2026-09-24 152435.png" alt=""></div>
+
+</div></div>
+         
+  <script>
+    // Videodagi barcha bo'limlar ro'yxati
+    const items = [
+      {
+        title: "Til o'rganish, o'yinlar, videolar va boshqalar",
+        icon: `<svg viewBox="0 0 24 24"><path d="M5 8l6 6"></path><path d="M4 14e1 0 0 1 12 4h7v7"></path><text x="6" y="15" fill="white" font-size="9" font-weight="bold">A</text><text x="13" y="19" fill="white" font-size="8" font-weight="bold">文</text></svg>`
+      },
+      {
+        title: "Abiturient<br><small style='font-weight:400; font-size:14px;'>Respublika OTMLaridagi mutaxassisliklar bo'yicha ma'lumotlar va testlar</small>",
+        icon: `<svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"></circle><path d="M12 14c-5 0-8 3-8 6h16c0-3-3-6-8-6z"></path><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path></svg>`
+      },
+      {
+        title: "Foydalanuvchilarning<br>savol va javoblari",
+        icon: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><text x="7" y="16" fill="white" font-size="12" font-weight="bold">Q&A</text></svg>`
+      },
+      {
+        title: "Ta'lim va boshqa materiallar<br>kutubxonasi",
+        icon: `<svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>`
+      }
+    ];
+
+    const container = document.getElementById('nodes-container');
+    const titleEl = document.getElementById('slide-title');
+    let currentIndex = 0;
+
+    function render() {
+      container.innerHTML = '';
+
+      items.forEach((item, index) => {
+        const node = document.createElement('div');
+        
+        // Pozitsiyani hisoblash (aylana bo'ylab harakatlanadi)
+        let posIndex = (index - currentIndex + items.length) % items.length + 1;
+        
+        node.className = `node pos-${posIndex}`;
+        
+        if (posIndex === 2) { // 2-pozitsiya markaziy aktiv qizil o'rin
+          node.classList.add('active-red');
+          titleEl.innerHTML = item.title;
+        } else {
+          node.classList.add('blue');
+        }
+
+        node.innerHTML = item.icon;
+        container.appendChild(node);
+      });
+    }
+
+    render();
+
+    // Har 3 soniyada doiralar egri chiziq bo'ylab surilib o'rnini almashtiradi
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % items.length;
+      render();
+    }, 3000);
+  </script>
+</body>
+</html>

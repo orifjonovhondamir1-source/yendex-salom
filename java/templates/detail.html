@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+</head>
+
+<body class="bg-black">
+    <nav class="h-[72px] pl-[50px] flex pt-[10px] ">
+        <img class="w-[148px] h-[48px] justify-center"
+          src="https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/dark/yandex-text.png"
+          alt="">
+        <div class=" ml-[20px] h-[48px] bg-[#000] flex">
+          <button class="px-6 border border-l-0 border-zinc-600 rounded-l-[25px] h-[48px] bg-zinc-600 text-[#fff]">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+          <input type="text" placeholder="Mahsulotlar va turkumlar izlash"
+            class=" border border-zinc-600 bg-zinc-600 rounded-r-[25px] px-4 py-3 outline-none focus:border-purple-500 w-[366px]">
+    
+        </div>
+        <div class="w-[155px] h-[48px] rounded-[25px] bg-[#fce000] ml-[35px] text-center pt-[10px]">
+          <h1 class="text-[14px]  text-[#000]"><i class="fa-solid fa-paper-plane" style="color: rgb(30, 48, 80);"></i>
+            Manzilni kiriting</h1>
+        </div>
+        <i class="fa-solid fa-earth-americas text-[24px] ml-[510px] mt-[10px]" style="color: rgb(30, 48, 80);"></i>
+        <div class="w-[92px] h-[48px] bg-zinc-600 text-zinc-400 rounded-[15px] text-center pt-[10px] ml-[20px]">
+          {% if user.is_authenticated %}
+
+          <a href="{% url 'chiqish' %}">
+           <i class="fa-solid fa-right-from-bracket"></i>
+           <span>{{ user.username}}</span>
+          </a>
+          {%else%}
+                       <button href="#" class="flex items-center gap-2 hover:text-purple-600 " id="tepelet">
+       
+       <a href="{% url 'salom' %}">                    <span class=" hidden lg:block "> <i class="fa-regular fa-user  " ></i> Kirish</span></a>
+                       </button>
+       {% endif%}
+        </div>
+      </nav>
+    <div id="sticky-header" 
+class="fixed top-0 left-0 bg-black p-4 border-b shadow-md z-50 
+       transition-all duration-300 transform -translate-y-full opacity-0 pointer-events-none">
+       <nav class="h-[72px] pl-[50px] flex pt-[10px] ">
+        <img class="w-[148px] h-[48px] justify-center"
+          src="https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/dark/yandex-text.png"
+          alt="">
+        <div class=" ml-[20px] h-[48px] bg-[#000] flex">
+          <button class="px-6 border border-l-0 border-zinc-600 rounded-l-[25px] h-[48px] bg-zinc-600 text-[#fff]">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+          <input type="text" placeholder="Mahsulotlar va turkumlar izlash"
+            class=" border border-zinc-600 bg-zinc-600 rounded-r-[25px] px-4 py-3 outline-none focus:border-purple-500 w-[366px]">
+    
+        </div>
+        <div class="w-[155px] h-[48px] rounded-[25px] bg-[#fce000] ml-[35px] text-center pt-[10px]">
+          <h1 class="text-[14px]  text-[#000]"><i class="fa-solid fa-paper-plane" style="color: rgb(30, 48, 80);"></i>
+            Manzilni kiriting</h1>
+        </div>
+        <i class="fa-solid fa-earth-americas text-[24px] ml-[510px] mt-[10px]" style="color: rgb(30, 48, 80);"></i>
+        <div class="w-[92px] h-[48px] bg-zinc-600 text-zinc-400 rounded-[15px] text-center pt-[10px] ml-[20px]">
+          {% if user.is_authenticated %}
+
+          <a href="{% url 'chiqish' %}">
+           <i class="fa-solid fa-right-from-bracket"></i>
+           <span>{{ user.username}}</span>
+          </a>
+          {%else%}
+                       <button href="#" class="flex items-center gap-2 hover:text-purple-600 " id="tepelet">
+       
+       <a href="{% url 'salom' %}">                    <span class=" hidden lg:block "> <i class="fa-regular fa-user  " ></i> Kirish</span></a>
+                       </button>
+       {% endif%}
+        </div>
+      </nav>
+</div>
+     
+    <div class="flex "> {% for kik in kik %}
+          
+            style="background-image: url({{kik.liga.url}}); padding-top: 50px;  padding-left: 20px; width: 667px; height: 360px; border-radius: 50px; background-repeat: no-repeat; background-position: 10% 50%; margin-left: 450px; margin-top: 25px;">
+            <h1 class="text-[48px] text-[#fff] mt-[120px] ml-[10px] font-bold">Burger Embassy </h1>
+            <div class="flex">
+                <div class="w-[108px] h-[56px] bg-[#fff] rounded-[15px] mt-[20px]"
+                    style="padding: 12px 18px 12px 12px; ">
+                    <div class="flex">
+                        <div class="flex text-center">
+                            <div class="pt-[0px] text-center">
+                                <h1><i class="fa-solid fa-star text-[32px]"></i></h1>
+                            </div>
+                            <div>
+                                <h1 class="text-[20px]" style="padding-bottom: px;">4.7 </h1>
+                                <h1 class="text-[12px] text-zinc-400 " style="padding-bottom: px;">12653</h1>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="text-[24px] w-[56px] h-[56px] ml-[10px] bg-[#fff] mt-[20px] text-center rounded-[15px]"><i
+                        class="fa-solid fa-circle-info"></i></div>
+            </div>
+        </div>
+        {% endfor %}
+
+        <div id="sticky-header" class="fixed   
+             ml-[600]">
+            <div
+                class="w-[320px] h-[406px] rounded-[25px] bg-[#42413e] ml-[50px] mt-[20px] pl-[10px] pt-[10px] text-white absolute left-[1120px]  top-[60px]">
+                <h1 class="text-[20px] font-bold ">Корзина
+                </h1><img class="w-[180px] h-[180px] ml-[50px]"
+                    src="https://avatars.mds.yandex.net/get-bunker/120922/483d7d1712a6db09e544143215e35c1b9213601d/orig"
+                    alt="">
+                <div class="text-center mt-[0px]">
+                    <h1 class="text-[23px] text-[#e0deda] font-bold">Пусто, как ночью в холодильнике</h1>
+                    <h1 class="text-[16px] text-[#e0deda] w-[300px]">Но это ненадолго — добавьте что-нибудь вкусное</h1>
+                    <div class="w-[288px] h-[2px] bg-zinc-600 mt-[2px]"></div>
+                    <div
+                        class="w-[288px] h-[28p] bg-[#02a35f24] mt-[5px] text-[14px] text-[#02a35f] pt-[3px] font-bold rounded-[25px] ">
+                        <h1>4999 so'm</h1>
+                    </div>
+                    <h1 class="text-[13px] text-[#e0deda]"> Бесплатно на заказ от 50000 сум</h1>
+                </div>
+            </div>
+        </div>
+
+        <!-- JavaScript Logic -->
+        <script>
+            const header = document.getElementById('sticky-header');
+
+            function handleScroll() {
+                // Sahifa 200px pastga tushganda header chiqadi
+                if (window.scrollY > 200) {
+                    header.classList.remove('-translate-y-full', 'opacity-100', 'pointer-events-none');
+                    header.classList.add('translate-y-0', 'opacity-100');
+
+                    // Bir marta chiqqandan keyin kuzatishni to'xtatamiz (doimiy qoladi)
+                    window.removeEventListener('scroll', handleScroll);
+                }
+            }
+
+            window.addEventListener('scroll', handleScroll);
+        </script>
+
+        <div class="w-[320px] h-[406px] rounded-[25px] bg-[#42413e] ml-[50px] mt-[20px] pl-[10px] pt-[10px] text-white">
+            <h1 class="text-[20px] font-bold ">Корзина
+            </h1><img class="w-[180px] h-[180px] ml-[50px]"
+                src="https://avatars.mds.yandex.net/get-bunker/120922/483d7d1712a6db09e544143215e35c1b9213601d/orig"
+                alt="">
+            <div class="text-center mt-[0px]">
+                <h1 class="text-[23px] text-[#e0deda] font-bold">Пусто, как ночью в холодильнике</h1>
+                <h1 class="text-[16px] text-[#e0deda] w-[300px]">Но это ненадолго — добавьте что-нибудь вкусное</h1>
+                <div class="w-[288px] h-[2px] bg-zinc-600 mt-[2px]"></div>
+                <div
+                    class="w-[288px] h-[28p] bg-[#02a35f24] mt-[5px] text-[14px] text-[#02a35f] pt-[3px] font-bold rounded-[25px] ">
+                    <h1>4999 so'm</h1>
+                </div>
+                <h1 class="text-[13px] text-[#e0deda]"> Бесплатно на заказ от 50000 сум</h1>
+            </div>
+        </div>
+    </div>
+    <div
+        class="w-[667px] h-[72px] bg-zinc-800 rounded-[20px] text-[16px] text-white pt-[1px] pl-[10px]  ml-[450px] mt-[10px] flex">
+        <img class="w-[72px] h-[72px]" src="https://eda.yandex.ru/files/bdu/informers/auto_translate_dark_3x.png"
+            alt="">
+        <h1 class="ml-[10px] mt-[25px]">
+
+            Menyu avtomatik tarjima qilinsinmi?
+        </h1>
+        <div
+            class="w-[70px] h-[48px] text-[13px] text-center bg-[#302f2d] rounded-[15px] pt-[10px] mt-[10px] ml-[225px]">
+            <h1>Tarjima</h1>
+        </div>
+    </div>
+    <div
+        class="w-[667px] h-[72px] bg-zinc-800 rounded-[20px] text-[16px] text-white pt-[1px] pl-[10px]  ml-[450px] mt-[10px] flex">
+        <img class="w-[72px] h-[72px]" src="https://eda.yandex/images/3816972/0a6904a5dbf6de2762626985e3fc860b.png"
+            alt="">
+        <h1 class="ml-[10px] mt-[19px]">
+            –30% на ряд блюд – на любой заказ</h1>
+    </div>
+    <div
+        class="w-[667px] h-[72px] bg-zinc-800 rounded-[20px] text-[16px] text-white pt-[1px] pl-[10px]  ml-[450px] mt-[10px] flex">
+        <img class="w-[72px] h-[72px]"
+            src="https://avatars.mds.yandex.net/get-eda-images/9404223/3b3b37f9-6bdc-11f1-a723-d6d185c964a4/orig"
+            alt="">
+        <h1 class="ml-[10px] mt-[9px]">
+
+            Получите скидку –10% не более 44 000 сум – При оплате заказов картами <br> Mastercard от 90 000 сум</h1>
+    </div>
+    <h1 class="text-[30px] text-[#e0deda] font-bold mt-[20px] ml-[450px] ">Акции</h1>
+    <div class="w-[217px] h-[377px] bg-zinc-800 ml-[100] mt-[20px] ml-[450px] pt-[10px] rounded-[25px] pl-[10px]"><img
+            class="w-[193px] h-[153px] rounded-[25px] ml-[3px]"
+            src="https://eda.yandex/images/20410873/c044b568d8e3d1b33c7e530f51d0d9a3-300x300.jpeg" alt="">
+        <h1 class="text-[28px] text-[#fa6a3c] mt-[5px]">
+
+            76  000 сум
+        </h1>
+        <h1 class="text-[20px] text-zinc-400 absolute top-[960px]  ">93  000 сум</h1>
+        <h1 class="text-[16px] text-white mt-[14px]">
+
+            New York burger set past miks fanta 0.4</h1>
+        <h1 class="text-[14px] text-zinc-400"> 1.15kg</h1>
+        <h1 class="text-[18] text-white">82%(180)</h1>
+        <div class="bg-zinc-700 w-[193px] h-[44px] mt-[5px] rounded-[12px] text-[14px] text-center pt-[9px] font-bold text-white "><h1> 
+            + Добавить</h1></div>
+  
+    </div>
+
+</body>
+</body>
+
+
+</html>
