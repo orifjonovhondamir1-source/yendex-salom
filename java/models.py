@@ -13,7 +13,7 @@ class Kik(models.Model):
     namr = models.CharField(max_length=200 , null=True)
     tavt = models.CharField(max_length=200 , null=True)
     aktiv = models.BooleanField(default=True)
-    
+
 
     def __str__(self):
         return self.namc

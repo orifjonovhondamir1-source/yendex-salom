@@ -119,10 +119,15 @@ def reklama(request):
     return render(request, 'reklama.html', )
 
 
-def  detail(request):
-    kik = Kik.objects.all()
-    return render(request, 'detail.html', {"kik": kik})
+def detail(request, tovar_id):
+    kik = get_object_or_404(Kik, id=tovar_id)
 
+    context = {
+        'kik': kik,
+
+  
+    }   
+    return render(request, 'detail.html', context)
 
 def chiqish(request):
     auth_logout(request)

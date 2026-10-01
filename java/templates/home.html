@@ -314,7 +314,7 @@ window.addEventListener('scroll', handleScroll);
 
     <div class="flex">
 
-      <div class=" bg-repeat"><a   href="{% url 'detail'  %}"><img class="w-[309px] h-[151px] bg-repeat rounded-[15px]  " src="{{kik.liga.url}}" alt=""></a>
+      <div class=" bg-repeat"><a   href="{% url 'detail' kik.id %}"><img class="w-[309px] h-[151px] bg-repeat rounded-[15px]  " src="{{kik.liga.url}}" alt=""></a>
       <div class="flex">  <h1 class="text-[16px]">{{kik.namc}}</h1>
         <h1 class="text-[14px] ml-[180px]">{{kik.tavk}}</h1></div>
         <h1 class="text-[14px]">{{kik.namr}}</h1>
@@ -327,14 +327,6 @@ window.addEventListener('scroll', handleScroll);
      
       
 
-        <div class=" bg-repeat"><img class="w-[309px] h-[151px] bg-repeat rounded-[15px]  " src="{{kik.liga.url}}" alt="">
-          <div class="flex">  <h1 class="text-[16px]">{{kik.namc}}</h1>
-            <h1 class="text-[14px] ml-[180px]">{{kik.tavk}}</h1></div>
-            <h1 class="text-[14px]">{{kik.namr}}</h1>
-           {% if kik.aktiv%}
-    <div class="w-[120px] pl-[5px] h-[16px] text-[11px] text-[#48c600] bg-green-600 rounded-[25px]"> <h1>bepul yelkazib berilish</h1></div>
-           {% endif%}
-          </div>
           {% endfor%}
           </div>
           <div class=" h-[560px] mt-[320px] absolute left-[6px]"> 
