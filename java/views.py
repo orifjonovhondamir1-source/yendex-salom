@@ -229,6 +229,6 @@ def yolhat(request):
             return redirect("yolhat")
         else:
             messages.error(request, "Noma'lum xatolik")
-            return redirect("loyiha")
+            return redirect("home")
 
     return render(request, "yolhat.html")
