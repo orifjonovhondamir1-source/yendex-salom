@@ -15,7 +15,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://idex-production-79d1.up.railway.app',
+]
 # Application definition
 
 INSTALLED_APPS = [
